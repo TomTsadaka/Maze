@@ -1,0 +1,1 @@
+java -cp final.jar;lib\algorithms.jar;lib\Windows64\swt.jar boot.Run
