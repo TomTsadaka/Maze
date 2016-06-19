@@ -3,6 +3,12 @@ package presenter;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Display message command class
+ */
+
 public class DisplayMessageCommand implements Command {
 
 	private Model model;

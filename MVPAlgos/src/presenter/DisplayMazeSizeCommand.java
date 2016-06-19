@@ -3,6 +3,12 @@ package presenter;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Display maze size command class
+ */
+
 public class DisplayMazeSizeCommand implements Command {
 
 	private Model model;
@@ -20,11 +26,11 @@ public class DisplayMazeSizeCommand implements Command {
 				model.displayMazeSize(args[1]);
 			} catch (Exception e) {
 				e.printStackTrace();
-				view.displayMessage("Bad command input");
-				view.displayMessage("Command sould be: maze_size <name>");
+				view.displayMessage("Bad command input\n");
+				view.displayMessage("Command sould be: maze_size <name>\n");
 			}
 		}else{
-			view.displayMessage("argument error: maze_Size <name>");
+			view.displayMessage("argument error: maze_Size <name>\n");
 		}
 
 	}

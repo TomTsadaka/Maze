@@ -27,6 +27,7 @@ public class MyView extends Observable implements View, Observer  {
 	public void displayMessage(String message) {
 		try {
 			out.write(message);
+			out.write("\n");
 			out.flush();
 		} catch (IOException e) {
 			
@@ -65,23 +66,6 @@ public class MyView extends Observable implements View, Observer  {
 			this.notifyObservers(arg);			
 		}		
 	}	
-	
-	/*public void displayDir(String dirs) {
-		try {
-			out.write("Directory conatains: ");
-			for (String string : s)
-			{
-				out.write(string);
-				out.flush();
-			}
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-	
-		
-	}
-	*/
 
 	public void displaySolution(Solution sol) {
 		try {			

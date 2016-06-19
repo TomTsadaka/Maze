@@ -3,6 +3,12 @@ package presenter;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Solve maze command class
+ */
+
 public class SolveMazeCommand implements Command {
 
 	

@@ -2,6 +2,12 @@ package presenter;
 
 import model.Model;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Generate maze command class
+ */
+
 public class GenerateMazeCommand implements Command {
 	private Model model;
 	public GenerateMazeCommand(Model model) {

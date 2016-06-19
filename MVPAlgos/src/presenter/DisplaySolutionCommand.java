@@ -8,6 +8,12 @@ import domains.State;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Display solution command class
+ */
+
 public class DisplaySolutionCommand implements Command {
 
 	private Model model;
@@ -27,16 +33,7 @@ public class DisplaySolutionCommand implements Command {
 		else
 		{
 			String name = args[1];
-			Solution sol =  model.getSolution(name);
-			//view.displayMessage(sol.toString());
-			ArrayList<State> states=sol.getStates();
-			State[] statesarr=new State[states.size()];
-			for(int i=0;i<states.size();i++)
-			{
-				statesarr[i]=states.get(i);
-			}
-			view.displayMessage(Arrays.deepToString(statesarr)+ "\n");
-			
+			view.displaySolution(model.getSolution(name));
 		}
 	}
 

@@ -25,18 +25,26 @@ public class Properties implements Serializable {
 	/** The user interface. */
 	private String userInterface;
 	
+	/** The maze dimensions */
+	private int x;
+	private int y;
+	private int z;
+	
 	/** Did the properties properly loaded */
-	boolean propertiesSet = false;
+	private boolean propertiesSet = false;
 
 	/**
 	 * Instantiates a new properties.
 	 */
-	public Properties() {
+	public Properties(String path) {
+		this.path=path;
 		this.numOfThreads=20;
 		this.solveAlgorithm="BFS";
 		this.generateAlgorithm="MyMaze3dGenerator";
 		this.userInterface="CLI";
-
+		this.x=3;
+		this.y=6;
+		this.z=6;
 	}
 	
 	/**
@@ -111,6 +119,57 @@ public class Properties implements Serializable {
 		this.userInterface = userInterface;
 	}
 	
+	/**
+	 * Gets the number of floors
+	 * @return number of floors
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Sets number of floors
+	 * 
+	 * @param x number of floors
+	 */
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	/**
+	 * Gets the width
+	 * @return maze width
+	 */
+	public int getY() {
+		return y;
+	}
+
+	/**
+	 * Sets the width
+	 * 
+	 * @param y maze width
+	 */
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	/**
+	 * Gets the height
+	 * @return maze height
+	 */
+	public int getZ() {
+		return z;
+	}
+
+	/**
+	 * Sets the height
+	 * 
+	 * @param z the height
+	 */
+	public void setZ(int z) {
+		this.z = z;
+	}
+
 	public void save(){
 		XMLEncoder e;
 		try {
@@ -118,11 +177,17 @@ public class Properties implements Serializable {
 			numOfThreads = 20;
 			solveAlgorithm="BFS";
 			generateAlgorithm="MyMaze3dGenerator";
-			userInterface="CLI";
+			userInterface="GUI";
+			x=5;
+			y=10;
+			z=10;
 			e.writeObject(numOfThreads);
 			e.writeObject(solveAlgorithm);
 			e.writeObject(generateAlgorithm);
 			e.writeObject(userInterface);
+			e.writeObject(x);
+			e.writeObject(y);
+			e.writeObject(z);
 			e.close();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
@@ -137,8 +202,11 @@ public class Properties implements Serializable {
 				this.numOfThreads = (int)d.readObject();
 				this.solveAlgorithm=(String)d.readObject();
 				this.generateAlgorithm=(String)d.readObject();
-				userInterface=(String)d.readObject();
-				propertiesSet = true;
+				this.userInterface=(String)d.readObject();
+				this.x=(int)d.readObject();
+				this.y=(int)d.readObject();
+				this.z=(int)d.readObject();
+				this.propertiesSet = true;
 				d.close();
 			} catch (Exception e1) {
 				save();

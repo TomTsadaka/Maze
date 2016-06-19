@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,6 +22,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
+import javax.imageio.stream.ImageOutputStreamImpl;
 
 import algorithms.demo.MazeAdapter;
 import algorithms.mazeGenerators.Maze3d;
@@ -43,24 +46,36 @@ public class MyModel extends Observable implements Model {
 	private HashMap<Maze3d,Solution> mazesSolutions=new HashMap<Maze3d,Solution>();
 	private String message;
 	private ExecutorService threadPool=Executors.newCachedThreadPool();
-	private static final int threadsNum = 20;
+	private static final int threadsNum = 25;
 	private Properties properties;
 	private XMLDecoder xmlDecoder;
 	
-	
+	/**
+	 * Default C'tor
+	 */
 	public MyModel()
 	{	
 		this.threadPool = Executors.newFixedThreadPool(threadsNum);
 	}
 	
+	/**
+	 * Returns Properties
+	 * @return Properties
+	 */
 	public Properties getProperties() {
 		return properties;
 	}
 
+	/**
+	 * Returns message
+	 */
 	public String getMessage() {
 		return message;
 	}
 	
+	/**
+	 * Generates the maze
+	 */
 	@Override
 	public void generateMaze(String name, int x, int y, int z) {
 		threadPool.submit(new Callable<Maze3d>() {
@@ -84,20 +99,10 @@ public class MyModel extends Observable implements Model {
 				}
 				
 				else 
-				{
-					if(properties.getGenerateAlgorithm().toLowerCase().equals("mymaze3dgenerator"))
-					{
-						MyMaze3dGenerator mg = new MyMaze3dGenerator();
-						maze = mg.generate(x,y,z);
-						mazes.put(name, maze);
-					}
-					
-					if(properties.getGenerateAlgorithm().toLowerCase().equals("simplemaze3dgenerator"))
-					{
-						SimpleMaze3dGenerator mg = new SimpleMaze3dGenerator();
-						maze = mg.generate(x,y,z);
-						mazes.put(name, maze);
-					}
+				{					
+					MyMaze3dGenerator mg = new MyMaze3dGenerator();
+					maze = mg.generate(x,y,z);
+					mazes.put(name, maze);
 				}
 				
 				message = "Maze " + name + " is ready\n";
@@ -109,10 +114,16 @@ public class MyModel extends Observable implements Model {
 		
 	}
 	
+	/**
+	 * Returns the maze
+	 */
 	public Maze3d getMaze(String name) {
 		return mazes.get(name);			
 	}
 
+	/**
+	 * Saves the maze to a file
+	 */
 	@Override
 	public void saveMaze(String name, String fileName) {
 		if (!mazes.containsKey(name)) {
@@ -122,16 +133,12 @@ public class MyModel extends Observable implements Model {
 			notifyObservers("display_message");
 			return;
 		}
-		Maze3d maze = mazes.get(name);
 	
 		try {
 			OutputStream out = new MyCompressorOutputStream(new FileOutputStream(fileName));
-			byte[] bytes = maze.toByteArray();
-			out.write(bytes.length);
-			out.write(bytes);
+			out.write(mazes.get(name).toByteArray());
 			out.flush();
 			out.close();
-			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -139,47 +146,51 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 
+	/**
+	 * Loads the maze from a file
+	 */
 	@Override
 	public void loadMaze(String fileName, String name) {
-		InputStream in = null;
-		try {
-			byte b[] = new byte[3];
-			in = new FileInputStream(fileName);
-			in.read(b, 0, b.length);
-			b = new byte[((int) b[0] * (int) b[1] * (int) b[2]) + 9];
-			in.close();
-			in = new MyDecompressorInputStream(new FileInputStream(fileName));
-			in.read(b);
-			mazes.put(name, new Maze3d(b));
-
-			this.message = "Maze " + name + " loaded from " + fileName;
-			setChanged();
-			notifyObservers("display_message");
-		} 
-		catch (FileNotFoundException e) 
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		finally {
-			if (in != null)
-				try {
-					in.close();
-				}
-			catch (IOException e) 
-			{
-					e.printStackTrace();
-			}
-		}
 		
-
+			try {
+				InputStream in = new MyDecompressorInputStream(new FileInputStream(fileName));
+				//read the size of the maze and create an array with appropriate size
+				byte[] mazeSizes = new byte[12];
+				in.read(mazeSizes);
+				in.close();
+				ByteBuffer bb = ByteBuffer.wrap(mazeSizes);
+				byte[] b = new byte[bb.getInt()*bb.getInt()*bb.getInt() + 36];
+				
+				in = new MyDecompressorInputStream(new FileInputStream(fileName));
+				in.read(b);
+				in.close();
+				Maze3d maze = new Maze3d(b);
+				mazes.put(name, maze);
+				
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 	
+	/**
+	 * Receives a path to an XML properties file and loads its content.
+	 */
+	@Override
+	public void loadProperties(String path) {
+		Properties properties = new Properties(path);
+		properties.load();
+		if (!properties.getPropertiesSet())
+		{
+			setChanged();
+			notifyObservers("Properties file is corrupted / doesn't exist.");
+		}
+	}
+	
+	/**
+	 * display the dir
+	 */
 	@Override
 	public void dir(String path)
 	{
@@ -200,6 +211,9 @@ public class MyModel extends Observable implements Model {
 		notifyObservers(message);
 	}
 
+	/**
+	 * Displays the maze by the wanted dimension
+	 */
 	@Override
 	public void displayCrossSection(String name, int index, char axis) {
 		if(!(mazes.containsKey(name)))
@@ -271,22 +285,20 @@ public class MyModel extends Observable implements Model {
 					notifyObservers("display_message");
 				}
 			}
-		}
-		
-		
-		
+		}	
 		
 	}
 	
+	/**
+	 * Displays the maze
+	 */
 	public void displayMaze(String name)
 	{
 		if(!mazes.containsKey(name))
 		{
-			message="Maze does not exist";
 			setChanged();
-			notifyObservers("display_message");
+			notifyObservers("Maze doesn't exist.");
 		}
-		
 		else
 		{
 			Maze3d maze=mazes.get(name);
@@ -297,6 +309,9 @@ public class MyModel extends Observable implements Model {
 		
 	}
 	
+	/**
+	 * Solves the maze
+	 */
 	public void solveMaze(String name, String algorithm) {
 		
 		if(!mazes.containsKey(name))
@@ -306,7 +321,7 @@ public class MyModel extends Observable implements Model {
 			notifyObservers("display_message");
 		}
 		
-		if(!(algorithm.equals("DFS"))&&!(algorithm.equals("BFS"))&&!(algorithm.equals("BreadthFirstSearch")))
+		if(!(algorithm.toUpperCase().equals("DFS"))&&!(algorithm.toUpperCase().equals("BFS"))&&!(algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")))
 		{
 			message="algorithms "+algorithm+ " does not exist";
 			setChanged();
@@ -328,21 +343,21 @@ public class MyModel extends Observable implements Model {
 				MazeAdapter ma=new MazeAdapter(mazes.get(name));
 				if (mazes.containsKey(name)) {
 					
-					if (algorithm.equals("BFS")) {
+					if (algorithm.toUpperCase().equals("BFS")) {
 						sol=new BFS().search(ma);
 						mazeSol.put(name, sol);
 						mazesSolutions.put(mazes.get(name), sol);
 						message=("Solution for maze " + name + " based on algorithem " + algorithm + " is ready");
 					}
-					else if (algorithm.equals("BreadthFirstSearch")) {
+					else if (algorithm.toUpperCase().equals("BREADTHFIRSTSEARCH")) {
 						sol= new BreadthFirstSearch().search(ma);
 						mazeSol.put(name, sol);
 						mazesSolutions.put(mazes.get(name), sol);
 						message=("Solution for maze " + name + " based on algorithem " + algorithm + " is ready");
 					}
-					else if (algorithm.equals("DFS")) {
-						sol= new DFS().search(ma);
-						mazeSol.put(name, new DFS().search(ma));
+					else if (algorithm.toUpperCase().equals("DFS")) {
+						sol= new BFS().search(ma);
+						mazeSol.put(name, sol);
 						mazesSolutions.put(mazes.get(name), sol);
 						message=("Solution for maze " + name + " based on algorithem " + algorithm + " is ready");
 					}
@@ -359,6 +374,9 @@ public class MyModel extends Observable implements Model {
 		});
 	}
 	
+	/**
+	 * Displays the solution
+	 */
 	public void displaySolution(String name)
 	{
 		if(!(mazes.containsKey(name)))
@@ -382,6 +400,9 @@ public class MyModel extends Observable implements Model {
 		notifyObservers("display_message");	
 	}
 	
+	/**
+	 * Saves to GZip
+	 */
 	public void saveGZipMaps() {
 
 		FileOutputStream fos = null;
@@ -407,6 +428,9 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 	
+	/**
+	 * Loads from GZip
+	 */
 	@SuppressWarnings("unchecked")
 	public void loadGZipMaps() {
 
@@ -439,6 +463,9 @@ public class MyModel extends Observable implements Model {
 		}
 	}
 	
+	/**
+	 * Close all threads
+	 */
 	public void exitThreads()
 	{
 		threadPool.shutdown();
@@ -461,6 +488,9 @@ public class MyModel extends Observable implements Model {
 		notifyObservers("display_message");
 	}
 
+	/**
+	 * Displays the maze size
+	 */
 	@Override
 	public void displayMazeSize(String name) {
 		if(mazes.containsKey(name))
@@ -478,12 +508,19 @@ public class MyModel extends Observable implements Model {
 		notifyObservers("display_message");
 	}
 
+	/**
+	 * Returns maze solution
+	 */
 	public Solution getSolution(String name)
 	{
 		Solution sol=mazeSol.get(name);
 		return sol;
 	}
 
+	/**
+	 * Set properties
+	 * @param properties
+	 */
 	public void setProperties(Properties properties)
 	{
 		this.properties = properties;

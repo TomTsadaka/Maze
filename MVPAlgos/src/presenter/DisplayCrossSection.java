@@ -3,6 +3,12 @@ package presenter;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Display Cross Section command class
+ */
+
 public class DisplayCrossSection implements Command {
 
 	private Model model;

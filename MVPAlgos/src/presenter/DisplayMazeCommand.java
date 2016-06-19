@@ -1,5 +1,11 @@
 package presenter;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Display maze command class
+ */
+
 import algorithms.mazeGenerators.Maze3d;
 import model.Model;
 import view.View;
@@ -17,7 +23,7 @@ public class DisplayMazeCommand implements Command {
 	@Override
 	public void doCommand(String[] args) {
 		String name = args[1];
-		model.displayMaze(name);
+		view.displayMaze(model.getMaze(name));
 	}
 
 }

@@ -3,6 +3,12 @@ package presenter;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Display File Size command class
+ */
+
 public class DisplayFileSizeCommand implements Command {
 
 	private Model model;

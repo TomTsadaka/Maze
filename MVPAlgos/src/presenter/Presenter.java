@@ -7,13 +7,18 @@ import java.util.Observer;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * The presenter class
+ */
+
 public class Presenter implements Observer {
 	
 	private Model model;
 	private View view;
 	private HashMap<String, Command> viewCommands;
 	private HashMap<String, Command> modelCommands;
-	private Properties properties;
 	
 	public Presenter(Model model, View view) {
 		this.model = model;
@@ -22,6 +27,9 @@ public class Presenter implements Observer {
 		buildCommands();
 	}
 	
+	/**
+	 * Build the commands
+	 */
 	private void buildCommands() {
 		viewCommands = new HashMap<String, Command>();
 		viewCommands.put("generate_3d_maze", new GenerateMazeCommand(model));
@@ -34,13 +42,16 @@ public class Presenter implements Observer {
 		viewCommands.put("exit", new ExitCommand(model, view));
 		viewCommands.put("file_size", new DisplayFileSizeCommand(model, view));
 		viewCommands.put("maze_size", new DisplayMazeSizeCommand(model,view));
-		viewCommands.put("solve", new SolveMazeCommand(model, view));
+		viewCommands.put("solve_maze", new SolveMazeCommand(model, view));
+		viewCommands.put("load_properties", new LoadPropertiesCommand(model, view));
 		
 		modelCommands = new HashMap<String, Command>();
 		modelCommands.put("display_message", new DisplayMessageCommand(model, view));
-		//modelCommands.put("display_solution", new DisplaySolutionCommand(model, view));
 	}
 
+	/**
+	 * Update command
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o == model) {
@@ -56,11 +67,6 @@ public class Presenter implements Observer {
 			Command command = viewCommands.get(commandName);
 			command.doCommand(arr);
 		}
-	}
-
-	public void setProperties(Properties properties) {
-		this.properties=properties;
-		
 	}
 
 

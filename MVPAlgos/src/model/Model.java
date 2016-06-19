@@ -19,4 +19,5 @@ public interface Model {
 	void exitThreads();
 	void displayFileSize(String filename);
 	void displayMazeSize(String name);
+	void loadProperties(String filePath);
 }

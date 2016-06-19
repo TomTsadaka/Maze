@@ -5,6 +5,11 @@ import java.io.File;
 import model.Model;
 import view.View;
 
+/**
+ * 
+ * @author Eyal Gurbanov and Tom Tsadaka 
+ * Dir command class
+ */
 public class DirCommand implements Command {
 
 	
