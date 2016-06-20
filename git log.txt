@@ -1,0 +1,129 @@
+C:\Users\Tom\Documents\GitHub\Maze3d [master ?]> git log
+
+commit c3b0a28b3e652f4f884c583547d88b26d514a263
+Author: eial266 <eial.gu@gmail.com>
+Date:   Mon Jun 20 19:23:38 2016 +0300
+
+    Scripts Ready
+
+commit 5bcdca41784386fcf963bcc3e05691afa3f51f06
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 20:31:13 2016 +0300
+
+    Add files via upload
+
+commit 43b228f4fe18c772af4268086ccbedc4826b524c
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 19:03:07 2016 +0300
+
+    Final Commit
+
+    We are happy and thrilled to come this far.
+    We want to thank our parents.
+
+commit cbdbe43fb0f6055c9bba9e36cca3671a9de3fda3
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 19:01:36 2016 +0300
+
+    Final Commit
+
+commit c1575de53d6df247b2cd586b2e039ea1da16003a
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:59:54 2016 +0300
+
+    Final Commit
+
+commit 0c3fe20933603cb145031376381b44bb188f6dbb
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:57:57 2016 +0300
+
+    Final Commit
+
+commit 0c5c552c4c28f25ba25c9db6e10328a7af590eae
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:56:44 2016 +0300
+
+    Final Commit
+
+commit f76eefc623e77e67e1e0d08ce8752ba2ce0dc639
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:54:02 2016 +0300
+
+:...skipping...
+commit c3b0a28b3e652f4f884c583547d88b26d514a263
+Author: eial266 <eial.gu@gmail.com>
+Date:   Mon Jun 20 19:23:38 2016 +0300
+
+    Scripts Ready
+
+commit 5bcdca41784386fcf963bcc3e05691afa3f51f06
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 20:31:13 2016 +0300
+
+    Add files via upload
+
+commit 43b228f4fe18c772af4268086ccbedc4826b524c
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 19:03:07 2016 +0300
+
+    Final Commit
+
+    We are happy and thrilled to come this far.
+    We want to thank our parents.
+
+commit cbdbe43fb0f6055c9bba9e36cca3671a9de3fda3
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 19:01:36 2016 +0300
+
+    Final Commit
+
+commit c1575de53d6df247b2cd586b2e039ea1da16003a
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:59:54 2016 +0300
+
+    Final Commit
+
+commit 0c3fe20933603cb145031376381b44bb188f6dbb
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:57:57 2016 +0300
+
+    Final Commit
+
+commit 0c5c552c4c28f25ba25c9db6e10328a7af590eae
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:56:44 2016 +0300
+
+    Final Commit
+
+commit f76eefc623e77e67e1e0d08ce8752ba2ce0dc639
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Sun Jun 19 18:54:02 2016 +0300
+
+    Final Commit
+
+commit 9cba93946ab04d7c24bace8a057e6c45c6575c25
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Fri Jun 17 10:59:56 2016 +0300
+
+    Add files via upload
+
+    Everything works
+    need to add scripts, video, what have we learned
+
+commit ea1f4bb7f97d4386810555f7372c43817e93a009
+Author: eial266 <eial.gu@gmail.com>
+Date:   Wed Jun 15 22:26:58 2016 +0300
+
+    Add GUI_ PgUp Doesnt work
+
+commit 3fa137fb3c54cd582148f03f3b351fc0816db876
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Wed Jun 15 22:14:24 2016 +0300
+
+    Add files via upload
+
+commit fae33f9baa18c49e51ed4ed584ded2e050edba5d
+Author: TomTsadaka <tomtsadaka@gmail.com>
+Date:   Wed Jun 15 01:35:59 2016 +0300
+
+    Add files via upload
