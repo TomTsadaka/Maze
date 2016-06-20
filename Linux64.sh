@@ -1,0 +1,1 @@
+java -cp final.jar:lib/algorithms.jar:lib/Linux64/swt.jar boot.Run
